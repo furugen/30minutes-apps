@@ -1,0 +1,25 @@
+﻿<Window x:Class="FrontTimer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FrontTimer"
+        mc:Ignorable="d"
+        Topmost="True"
+        Title="MainWindow" Height="300" Width="600">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" ></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <!-- 時間表示 -->
+        
+        <TextBlock x:Name="timerTextBlock"  Grid.Row="0" FontSize="200" HorizontalAlignment="Center" VerticalAlignment="Center">30:00</TextBlock>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button x:Name="btnStartAndStop" Click="Button_Click" Height="60" Width="60" Margin="12">開始する</Button>
+            <Button Click="Button_Click_1" Width="60" Margin="12">リセット</Button>
+        </StackPanel>
+    </Grid>
+</Window>
