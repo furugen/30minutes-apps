@@ -14,12 +14,32 @@
         </Grid.RowDefinitions>
         
         <!-- 時間表示 -->
-        
-        <TextBlock x:Name="timerTextBlock"  Grid.Row="0" FontSize="200" HorizontalAlignment="Center" VerticalAlignment="Center">30:00</TextBlock>
+        <Grid  Grid.Row="0">
+            <StackPanel x:Name="editTimer" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <StackPanel.Resources>
+                    <Style TargetType="TextBox">
+                        <Setter Property="FontSize" Value="120" />
+                    </Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="FontSize" Value="120" />
+                    </Style>
+                </StackPanel.Resources>
+                
+                <TextBox x:Name="timerTextBoxMM" >30</TextBox>
+                <TextBlock>分</TextBlock>
+                <TextBox x:Name="timerTextBoxSS" >00</TextBox>
+                <TextBlock>秒</TextBlock>
+            </StackPanel>
+
+            <StackPanel x:Name="showTimer" Visibility="Collapsed">
+                <TextBlock   x:Name="timerTextBlock"  FontSize="200" HorizontalAlignment="Center" VerticalAlignment="Center">30:00</TextBlock>
+            </StackPanel>
+        </Grid>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button x:Name="btnStartAndStop" Click="Button_Click" Height="60" Width="60" Margin="12">開始する</Button>
+            <Button x:Name="btnStartAndStop" Click="Button_Click" Height="60" Width="60" Margin="12">開始</Button>
             <Button Click="Button_Click_1" Width="60" Margin="12">リセット</Button>
         </StackPanel>
     </Grid>
 </Window>
+    

@@ -24,15 +24,14 @@ namespace FrontTimer
     {
 
         private Stopwatch stopwatch = new Stopwatch();
+        DispatcherTimer timer = new DispatcherTimer();
+        private int countMax = 60 * 30;
+
         public MainWindow()
         {
             InitializeComponent();
 
-            
-
-
             // 定期的に実行
-            DispatcherTimer timer = new DispatcherTimer();
             // 0時間、0分、1秒ごとに動作
             timer.Interval = new TimeSpan(0, 0, 1);
             timer.Tick += Timer_Tick;
@@ -44,10 +43,28 @@ namespace FrontTimer
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            int countMax = 60 * 30;
+            RefreshTimer();
+            // 時間が経過したらアラームを表示
+            int totalSecounds = ((int)this.stopwatch.Elapsed.TotalSeconds);
+            if(totalSecounds >= countMax)
+            {
+                this.stopwatch.Stop();
+                this.timer.Stop();
+                MessageBox.Show("終了!!!");
+            }
+        }
+
+        private void RefreshTimer()
+        {
             int totalSecounds = ((int)this.stopwatch.Elapsed.TotalSeconds);
 
             TimeSpan countTime = new TimeSpan(0, 0, (countMax - totalSecounds));
+
+            if(countTime.TotalSeconds <= 0)
+            {
+                countTime = new TimeSpan(0, 0, 0);
+            }
+
             timerTextBlock.Text = countTime.ToString(@"mm\:ss");
         }
 
@@ -56,12 +73,37 @@ namespace FrontTimer
             if (stopwatch.IsRunning)
             {
                 stopwatch.Stop();
-                btnStartAndStop.Content = "開始する";
+                this.timer.Stop();
+
+                // タイマーを非表示に、編集を表示にする。
+                showTimer.Visibility = Visibility.Collapsed;
+                editTimer.Visibility = Visibility.Visible;
+                // 現在時刻をエディターに反映
+                int totalSecounds = ((int)this.stopwatch.Elapsed.TotalSeconds);
+                TimeSpan countTime = new TimeSpan(0, 0, (countMax - totalSecounds));
+                timerTextBoxMM.Text = countTime.ToString(@"mm");
+                timerTextBoxSS.Text = countTime.ToString(@"ss");
+
+                btnStartAndStop.Content = "開始";
             }
             else
             {
-                stopwatch.Start();
-                btnStartAndStop.Content = "停止する";
+                int minute = int.Parse(timerTextBoxMM.Text);
+                int secound = int.Parse(timerTextBoxSS.Text);
+
+                // ストップウォッチを再開
+                countMax = (minute * 60) + secound;
+                stopwatch.Restart();
+                this.timer.Start();
+
+                // タイマー表示をリセット
+                RefreshTimer();
+
+                btnStartAndStop.Content = "一時停止";
+
+                // タイマーを表示に、編集を非表示にする。
+                showTimer.Visibility = Visibility.Visible;
+                editTimer.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -71,3 +113,4 @@ namespace FrontTimer
         }
     }
 }
+
